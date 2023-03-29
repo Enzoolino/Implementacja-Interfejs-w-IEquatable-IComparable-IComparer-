@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EquatableTask
 {
-    public class Pracownik : IEquatable<Pracownik>
+    public class Pracownik : IEquatable<Pracownik>, IComparable<Pracownik>
     {
         private string _nazwisko;
 
@@ -21,6 +21,7 @@ namespace EquatableTask
         }
 
         private DateTime _datazatrudnienia;
+
         public DateTime DataZatrudnienia
         {
             get => _datazatrudnienia;
@@ -39,6 +40,7 @@ namespace EquatableTask
         }
 
         private decimal _wynagrodzenie;
+
         public decimal Wynagrodzenie
         {
             get => _wynagrodzenie;
@@ -56,13 +58,15 @@ namespace EquatableTask
             }
         }
 
+        //Konstruktor, definicja CzasuZatrudnienia oraz sposób zapisu w stringu.
+
         public int CzasZatrudnienia => (DateTime.Now - DataZatrudnienia).Days / 30;
 
 
         public override string ToString() => $"({Nazwisko}, {DataZatrudnienia:dd MM yyyy} ({CzasZatrudnienia}), {Wynagrodzenie} PLN)";
 
 
-        public Pracownik(DateTime dataZatrudnienia = default, string nazwisko = "Anonim", decimal wynagrodzenie = 0)
+        public Pracownik(string nazwisko = "Anonim", DateTime dataZatrudnienia = default, decimal wynagrodzenie = 0)
         {
             _nazwisko = nazwisko;
             _datazatrudnienia = dataZatrudnienia;
@@ -70,6 +74,8 @@ namespace EquatableTask
 
         }
 
+
+        
         #region implementacja IEquatable<Pracownik>
 
         public bool Equals(Pracownik other)
@@ -106,6 +112,33 @@ namespace EquatableTask
 
 
         #endregion implementacja IEquatable<Pracownik>
+        
+
+       
+        #region implementacja IComparable<Pracownik>
+
+        public int CompareTo(Pracownik other)
+        {
+            if (other is null) return 1;
+            if (this.Equals(other)) return 0;
+
+            if (this.Nazwisko != other.Nazwisko)
+                return this.Nazwisko.CompareTo(other.Nazwisko);
+
+            if (this.DataZatrudnienia != other.DataZatrudnienia)
+                return this.DataZatrudnienia.CompareTo(other.DataZatrudnienia);
+
+            return this.Wynagrodzenie.CompareTo(other.Wynagrodzenie);
+            
+
+        }
+
+        #endregion implementacja IComparable<Pracownik>
+        
+
+
+
+
 
 
     }
