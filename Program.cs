@@ -1,7 +1,10 @@
-﻿
-using EquatableTask;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
+using System.Text;
+using System.Threading.Tasks;
+
 
 namespace EquatableTask
 {
@@ -11,6 +14,7 @@ namespace EquatableTask
         {
 
             //TEST DZIAŁALNOŚCI: KROK 1
+
             /*
             var p1 = new Pracownik();
             Console.WriteLine(p1);
@@ -24,8 +28,10 @@ namespace EquatableTask
             Console.WriteLine(p2);
             */
 
+
             //KROK 2
-            List<Pracownik> pracownicy = new List<Pracownik>()
+            /*
+            var pracownicy = new List<Pracownik>()
             {
                 new Pracownik("Kielesza", new DateTime(2023, 01, 10), 300),
                 new Pracownik("Kielesza", new DateTime(2022, 10, 09), 400),
@@ -33,15 +39,8 @@ namespace EquatableTask
                 new Pracownik("Szablina", new DateTime(2022, 08, 23), 500),
                 new Pracownik("Lubczan", new DateTime(2023, 02, 27), 150),
                 
-                //Drugi Wariant Danych
-                /*
-                new Pracownik("AAA", new DateTime(2010, 10, 01), 100),
-                new Pracownik("AAA", new DateTime(2011, 10, 01), 1000),
-                new Pracownik("DDD", new DateTime(2010, 10, 03), 2000),
-                new Pracownik("CCC", new DateTime(2010, 10, 02), 1050),
-                new Pracownik("BBB", new DateTime(2010, 10, 01), 1050)
-                */
             };
+            
 
             Console.WriteLine("Przed posortowaniem:\n");
 
@@ -58,17 +57,78 @@ namespace EquatableTask
             {
                 Console.WriteLine(p);
             }
+            */
 
- 
-
-
-
-            
+            //KROK 3
+            Krok3();
 
             
+            
+            
+        }
+        
+        static void Krok3()
+        {
+            var pracownicy = new List<Pracownik>()
+            {
+                new Pracownik("Kielesza", new DateTime(2023, 01, 10), 300),
+                new Pracownik("Kielesza", new DateTime(2022, 10, 09), 400),
+                new Pracownik("Malinowski", new DateTime(2022, 10, 09), 500),
+                new Pracownik("Szablina", new DateTime(2022, 08, 23), 500),
+                new Pracownik("Lubczan", new DateTime(2023, 02, 27), 150),
+
+            };
+
+            Console.WriteLine("--- Zewnętrzny porządek - obiekt typu IComparer" + Environment.NewLine
+                        + "najpierw według czasu zatrudnienia (w miesiącach), " + Environment.NewLine
+                        + "a później według wynagrodzenia - wszystko rosnąco");
+
+            pracownicy.Sort(new WgCzasuZatrudnieniaPotemWgWynagrodzeniaComparer());
+
+            foreach (Pracownik p in pracownicy)
+            {
+                Console.WriteLine(p);
+            }
+
+
+            Console.WriteLine("--- Zewnętrzny porządek - delegat typu Comparison" + Environment.NewLine
+                        + "najpierw według czasu zatrudnienia (w miesiącach), " + Environment.NewLine
+                        + "a później kolejno według nazwiska i wynagrodzenia - wszystko rosnąco");
+
+            pracownicy.Sort((x, y) => (x.CzasZatrudnienia.ToString("D3")
+                + x.Nazwisko + x.Wynagrodzenie.ToString("00000.00")
+            ).CompareTo
+                (y.CzasZatrudnienia.ToString("D3")
+                + y.Nazwisko + y.Wynagrodzenie.ToString("00000.00")
+            )
+          );
+
+            foreach(Pracownik p in pracownicy)
+            {
+                Console.WriteLine(p);
+            }
+
+
+            Console.WriteLine("--- Zewnętrzny porządek - delegat typu Comparison" + Environment.NewLine
+                       + "kolejno: malejąco według wynagrodzenia, " + Environment.NewLine
+                       + "później rosnąca według czasu zatrudnienia");
+
+            pracownicy.Sort((x, y) => (x.Wynagrodzenie != y.Wynagrodzenie) ?
+                  (-1) * (x.Wynagrodzenie.CompareTo(y.Wynagrodzenie)) :
+                  x.CzasZatrudnienia.CompareTo(y.CzasZatrudnienia)
+          );
+
+            foreach(Pracownik p in pracownicy)
+            {
+                Console.WriteLine(p);
+            }    
+
+
+
 
 
         }
+
 
     }
 }

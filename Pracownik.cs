@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace EquatableTask
 {
     public class Pracownik : IEquatable<Pracownik>, IComparable<Pracownik>
@@ -134,11 +129,6 @@ namespace EquatableTask
         }
 
         #endregion implementacja IComparable<Pracownik>
-        
-
-
-
-
 
 
     }
