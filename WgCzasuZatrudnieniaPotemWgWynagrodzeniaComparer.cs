@@ -3,7 +3,6 @@ namespace EquatableTask
 {
     public class WgCzasuZatrudnieniaPotemWgWynagrodzeniaComparer : IComparer<Pracownik>
     {
-
         public int Compare (Pracownik x, Pracownik y)
         {
             if (x is null && y is null) return 0;
@@ -17,6 +16,5 @@ namespace EquatableTask
             return x.Wynagrodzenie.CompareTo(y.Wynagrodzenie);
                
         }
-
     }
 }

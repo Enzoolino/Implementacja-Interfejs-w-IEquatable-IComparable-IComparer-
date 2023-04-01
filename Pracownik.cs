@@ -54,7 +54,6 @@ namespace EquatableTask
         }
 
         //Konstruktor, definicja CzasuZatrudnienia oraz sposób zapisu w stringu.
-
         public int CzasZatrudnienia => (DateTime.Now - DataZatrudnienia).Days / 30;
 
 
@@ -70,8 +69,6 @@ namespace EquatableTask
         }
         
 
-
-        
         #region implementacja IEquatable<Pracownik>
 
         public bool Equals(Pracownik other)

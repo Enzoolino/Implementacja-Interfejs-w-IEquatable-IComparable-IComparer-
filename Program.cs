@@ -13,13 +13,13 @@ namespace EquatableTask
         public static void Main(string[] args)
         {
             //KROK 1
-            //Krok1();
+            Krok1();
 
             //KROK 2
-            //Krok2();
+            Krok2();
             
             //KROK 3
-            //Krok3();
+            Krok3();
 
             //KROK 4
             Krok4();
@@ -139,8 +139,7 @@ namespace EquatableTask
 
             };
 
-
-            var sortQuery = pracownicy.OrderByDescending(p => p.Wynagrodzenie).ThenBy(p => p.Nazwisko).ToArray();
+            var sortQuery = pracownicy.OrderBy(p => p.Wynagrodzenie).ThenBy(p => p.Nazwisko).ToArray();
 
             foreach (Pracownik p in sortQuery)
             {
@@ -149,9 +148,6 @@ namespace EquatableTask
 
             
         }
-
-        
-
 
     }
 }
