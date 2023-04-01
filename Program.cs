@@ -23,6 +23,9 @@ namespace EquatableTask
 
             //KROK 4
             Krok4();
+
+            //KROK 5
+            Krok5();
         }
 
         static void Krok1()
@@ -145,8 +148,63 @@ namespace EquatableTask
             {
                 Console.WriteLine(p);
             }
+        }
 
-            
+        static void Krok5()
+        {
+            var pracownicy = new List<Pracownik>()
+            {
+                new Pracownik("Kielesza", new DateTime(2023, 01, 10), 300),
+                new Pracownik("Kielesza", new DateTime(2022, 10, 09), 400),
+                new Pracownik("Malinowski", new DateTime(2022, 10, 09), 500),
+                new Pracownik("Szablina", new DateTime(2022, 08, 23), 500),
+                new Pracownik("Lubczan", new DateTime(2023, 02, 27), 150),
+
+            };
+
+
+            // wewnętrzny porządek w zbiorze
+            Console.WriteLine("--- Porządkowanie za pomocą własnej metody sortującej" + Environment.NewLine
+        + "zgodnie z naturalnym porządkiem zdefiniowanym w klasie Pracownik ---" + Environment.NewLine);
+
+            Sortowanie.Sortuj(pracownicy);
+
+            foreach (Pracownik p in pracownicy)
+            {
+                Console.WriteLine(p);
+            }
+
+
+            // zewnętrzny porządek - obiekt IComparer
+            Console.WriteLine("--- Porządkowanie za pomocą własnej metody sortującej" + Environment.NewLine
+        + "zgodnie z porządkiem zdefiniowanym w klasie typu IComparer ---" + Environment.NewLine);
+
+            Sortowanie.Sortuj(pracownicy, new WgCzasuZatrudnieniaPotemWgWynagrodzeniaComparer());
+
+            foreach (Pracownik p in pracownicy)
+            {
+                Console.WriteLine(p);
+            }
+
+
+            // zewnętrzny porządek - delegat Comparison
+            Console.WriteLine("--- Porządkowanie za pomocą własnej metody sortującej" + Environment.NewLine
+        + "zgodnie z porządkiem zdefiniowanym przez delegat Comparison ---" + Environment.NewLine);
+
+            Comparison<Pracownik> porownywacz = (p1, p2) => (p1.Wynagrodzenie != p2.Wynagrodzenie) ?
+            (-1) * (p1.Wynagrodzenie.CompareTo(p2.Wynagrodzenie)) :
+            p1.CzasZatrudnienia.CompareTo(p2.CzasZatrudnienia);
+
+            Sortowanie.Sortuj(pracownicy, porownywacz);
+
+            foreach (Pracownik p in pracownicy)
+            {
+                Console.WriteLine(p);
+            }
+
+
+
+
         }
 
     }
